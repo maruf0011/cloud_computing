@@ -1,6 +1,9 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
 
 app.get('/hello', (req, res) => {
     res.send('hello LOL.===');
@@ -14,6 +17,14 @@ app.get('/retrieve_files', (req, resp) => {
             scan_params: [
                 'params1',
                 'params2'
+            ]
+        },
+        {
+            file_name: 'test2.ttf',
+            file_size: '50mb',
+            scan_params: [
+                'params3',
+                'params4'
             ]
         }
     ]);

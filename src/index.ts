@@ -1,10 +1,14 @@
 import express from "express";
 import cors from "cors";
 import fs from 'fs';
+import crypto from 'crypto';
+import { spawn } from 'child_process';
+import bodyParser from "body-parser";
 
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
 
 app.get('/hello', (req, res) => {
     res.send('hello LOL.===');
@@ -23,10 +27,15 @@ app.get('/retrieve_files', (req, resp) => {
 });
 
 app.post('/perform_analytics', (req, resp) => {
+    // console.log(req)
     const file_name = req.body.file_name;
 
+    const uuid = crypto.randomUUID();
+
+
+    // spawn('python', ['filename.py', file_name, uuid]);
     resp.send({
-        id: 'andc3x3dafeds',
+        id: uuid,
         file_name
     });
 });

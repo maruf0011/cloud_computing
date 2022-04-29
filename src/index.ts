@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import fs from 'fs';
 
 const app = express();
 
@@ -10,24 +11,15 @@ app.get('/hello', (req, res) => {
 });
 
 app.get('/retrieve_files', (req, resp) => {
-    resp.send([
-        {
-            file_name: 'test.ttf',
-            file_size: '50mb',
-            scan_params: [
-                'params1',
-                'params2'
-            ]
-        },
-        {
-            file_name: 'test2.ttf',
-            file_size: '50mb',
-            scan_params: [
-                'params3',
-                'params4'
-            ]
-        }
-    ]);
+    const files = fs.readdirSync('./image_dir', { withFileTypes: true }).filter(info => (info.isFile() && info.name.endsWith('png')));
+    const name_list = files.map(f_info => {
+        const f_stat = fs.statSync('./image_dir/' + f_info.name);
+        return ({
+            file_name: f_info.name,
+            file_size: f_stat.size
+        });
+    });
+    resp.send(name_list);
 });
 
 app.post('/perform_analytics', (req, resp) => {

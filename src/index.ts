@@ -19,11 +19,20 @@ app.get('/retrieve_files', (req, res) => {
         const files = fs.readdirSync('./image_dir', { withFileTypes: true }).filter(info => (info.isFile() && info.name.endsWith('png')));
         const name_list = files.map(f_info => {
             const f_stat = fs.statSync('./image_dir/' + f_info.name);
+            let file_exist = fs.existsSync('./results/' + f_info.name + '.txt');
+
+            let dice_score = '0.0';
+            let status = 'Not analyzed.'
+            if (file_exist) {
+                dice_score = fs.readFileSync('./results/' + f_info.name + '.txt').toString();
+                status = "Analyzed.";
+            }
+
             return ({
                 "fileId": "",
                 "fileName": f_info.name,
-                "status": "Not Reviewed",
-                "diceOutput": "0.53",
+                "status": status,
+                "diceOutput": dice_score,
                 "share": "Share with everybody",
                 "imageUrl": "https://raw.githubusercontent.com/PreyeaRegmi/RICE-Portal/dev/src/assets/img/60190-S70.jpg",
                 "matUrl": "",
@@ -38,7 +47,7 @@ app.get('/retrieve_files', (req, res) => {
                     ],
                     "analyticsOutput": [
                         "Precision : N/A",
-                        "DiceOutput : 0.53"
+                        "DiceOutput : " + dice_score
                     ],
                     "shareStatus": [
                         "Share Status : Share with everybody"
@@ -64,7 +73,7 @@ app.post('/perform_analytics', (req, resp) => {
     const file_name = req.body.file_name;
     const uuid = crypto.randomUUID();
 
-    spawn('python3', ['testfile.py', file_name, uuid]);
+    spawn('python3', ['mito_demo_inference_small.py', req.body.file_name]);
     resp.send({
         id: uuid,
         file_name

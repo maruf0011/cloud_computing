@@ -29,7 +29,7 @@ app.get('/retrieve_files', (req, res) => {
             }
 
             return ({
-                "fileId": "",
+                "fileId": f_info.name,
                 "fileName": f_info.name,
                 "status": status,
                 "diceOutput": dice_score,

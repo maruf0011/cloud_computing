@@ -60,13 +60,13 @@ app.get('/retrieve_files', (req, res) => {
 
 app.post('/perform_analytics', (req, resp) => {
   // console.log(req)
-  const file_name = req.body.file_name;
+  const file_id = req.body.fileId;
   const uuid = crypto.randomUUID();
 
   // spawn('python', ['filename.py', file_name, uuid]);
+
   resp.send({
-    id: uuid,
-    file_name
+    fileId: file_id
   });
 });
 

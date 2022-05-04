@@ -22,10 +22,10 @@ app.get('/retrieve_files', (req, res) => {
             let file_exist = fs.existsSync('./results/' + f_info.name + '.txt');
 
             let dice_score = '0.0';
-            let status = 'Not analyzed.'
+            let status = 'Not analyzed'
             if (file_exist) {
                 dice_score = fs.readFileSync('./results/' + f_info.name + '.txt').toString();
-                status = "Analyzed.";
+                status = "Analyzed";
             }
 
             return ({
@@ -80,16 +80,17 @@ app.post('/perform_analytics', (req, resp) => {
     });
 });
 
-// app.get('/get_processed_result/:id', (req, resp) => {
-//     const process_id = req.params.id;
-
-//     resp.send({
-//         dice_score: 50,
-//         precision: .5,
-//         recall: .5,
-//         f1_score: .5
-//     });
-// });
+app.get('/clear_results', (req, resp) => {
+    const files = fs.readdirSync('./image_dir', { withFileTypes: true }).filter(info => (info.isFile() && info.name.endsWith('png')));
+    files.forEach(file => {
+        if (fs.existsSync('./results/' + file.name + '.txt')) {
+            fs.rmSync('./results/' + file.name + '.txt');
+        }
+    });
+    resp.send({
+        "status": 'removed'
+    });
+});
 
 app.get('/get_action_recommendation/', (req, resp) => {
     const process_id = req.body.fileid;

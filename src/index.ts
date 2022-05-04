@@ -69,13 +69,13 @@ app.get('/retrieve_files', (req, res) => {
 });
 
 app.post('/perform_analytics', (req, resp) => {
-    // console.log(req)
-    const file_name = req.body.file_name;
-    // const uuid = crypto.randomUUID();
+    console.log(req.body)
+    const file_name = req.body.fileId;
+    const uuid = crypto.randomUUID();
 
     spawn('python3', ['mito_demo_inference_small.py', req.body.file_name]);
     resp.send({
-        id: "uuid",
+        id: uuid,
         file_name
     });
 });

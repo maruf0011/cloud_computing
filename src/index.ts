@@ -17,7 +17,6 @@ app.get('/retrieve_files', (req, res) => {
 
         console.log("Some statemenmts needs to be written..")
         var list_file = [
-            [
                 {
                   "fileId": "",
                   "fileName": "Sample.mat",
@@ -44,7 +43,7 @@ app.get('/retrieve_files', (req, res) => {
                     ]
                   }
                 }
-              ]        ]
+              ]  
         res.send(list_file)
     } 
     catch (error) {

@@ -17,7 +17,7 @@ app.get('/retrieve_files', (req, res) => {
   try {
     const files = fs.readdirSync('./image_dir', { withFileTypes: true }).filter(info => (info.isFile() && info.name.endsWith('png')));
     const name_list = files.map(f_info => {
-      const f_stat = fs.statSync('./image_dir/' + f_info.name);
+    const f_stat = fs.statSync('./image_dir/' + f_info.name);
       return ({
         "fileId": "",
         "fileName": f_info.name,
@@ -43,9 +43,9 @@ app.get('/retrieve_files', (req, res) => {
             "Share Status : Share with everybody"
           ]
         }
-      } )      
+      })
     });
-    console.log(name_list)
+    // console.log(name_list)
     res.send(name_list);
   }
   catch (error) {

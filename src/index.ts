@@ -73,7 +73,7 @@ app.post('/perform_analytics', (req, resp) => {
     const file_name = req.body.fileId;
     const uuid = crypto.randomUUID();
 
-    spawn('python3', ['mito_demo_inference_small.py', req.body.file_name]);
+    spawn('python3', ['mito_demo_inference_small.py', file_name]);
     resp.send({
         id: uuid,
         file_name
